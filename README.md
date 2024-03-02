@@ -9,7 +9,7 @@ the default employee of [Lethal Company](https://store.steampowered.com/app/1966
 
 ## Moveset Roadmap
 
-| Color             | Hex                                                                |
+| Move             | how much we have done                                                              |
 | ----------------- | ------------------------------------------------------------------ |
 | Jabs | 0% |
 | Neutral | 0% |
