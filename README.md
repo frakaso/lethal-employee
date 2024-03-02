@@ -23,7 +23,6 @@ the default employee of [Lethal Company](https://store.steampowered.com/app/1966
 
 [here's all our powerful knowledge combined of how are we going to make this character](https://matias.me/nsfw/)
 <img src="https://us-tuna-sounds-images.voicemod.net/ccb80501-6723-400f-882f-378425a58c55-1701413732402.png" width="48">
-![nice](https://us-tuna-sounds-images.voicemod.net/ccb80501-6723-400f-882f-378425a58c55-1701413732402.png)
 
 
 
@@ -31,7 +30,3 @@ the default employee of [Lethal Company](https://store.steampowered.com/app/1966
 
 - [@frakaso](https://www.github.com/frakaso) [Moveset, programming]
 - [@maxilamano](https://www.github.com/maxilamano) [Art, programming]
-
-
-## o
-<img src="https://us-tuna-sounds-images.voicemod.net/ccb80501-6723-400f-882f-378425a58c55-1701413732402.png" width="48">
