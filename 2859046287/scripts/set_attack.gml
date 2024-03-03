@@ -11,3 +11,8 @@ if (attack == AT_DSPECIAL)
     if (instance_exists(artc_dspec)) window = 6;
     else window = 1;
 }
+if (attack == AT_USPECIAL)
+{
+    if (instance_exists(artc_uspec) && free) window = 6;
+    else window = 1;
+}

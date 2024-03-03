@@ -356,52 +356,68 @@ switch (attack)
 		}
 		break;
 	case AT_USPECIAL: //directional dash
-		can_fast_fall = false; //prevents player from being able to fastfall
-
-		//we need this so the player will be able to fast fall after using the move (unless they got parried)
-		if (window == window_last && window_timer == window_end && !was_parried) can_fast_fall = true;
-
+			can_fast_fall = false;
 		switch (window)
 		{
-			case 1: case 2: //angle setup
-				if (state_timer == 1) uspec_angle = 90;
-				else if (window == 2)
+			//PART 1: WAYPOINT SETUP
+			case 3: //spawn article
+				if (!free)
 				{
-					if (!joy_pad_idle) uspec_angle = joy_dir;
-					else uspec_angle = 90;
+					instance_destroy(artc_uspec)
+					artc_uspec = instance_create(x, y-50, "obj_article2");
 				}
+				if (free && window_timer == 1) vsp = -3; //does a little bounce in the air
+				break;
+			case 5: //sends player back to idle
+				if (window_timer == window_end) set_state(free ? PS_IDLE_AIR : PS_IDLE);
+				break;
+			//PART 2: TELEPORT
+			//the article existance check happens on set_attack.gml	
+			case 7: //teleport - it happens on window 8, window timer 0, but attack_update doesn't allow for window_timer 0
+				if (window_timer == window_end)
+				{
+					move_cooldown[attack] = 0;
 
-				//limits the character's movement speed
+					if (instance_exists(artc_uspec))
+					{
+						spawn_hit_fx(x, y-32, fx_pow_hit[0]); //before warp effect
+
+						x = artc_uspec.x; //warp to the coordinates
+						y = artc_uspec.y + 50;
+
+						spawn_hit_fx(x, y-32, fx_pow_hit[0]); //after warp effect
+					}
+					
+				}
+			case 6: //effects
+				do_particle(
+					sprite_get("fx_pow_sparks"),
+					12,
+					x + (random_func(5, 5, true) - 2) * 16,
+					y + (random_func(6, 5, true) - 2) * 16 - char_height / 2,
+					1, //xscale
+					1, //yscale
+					1, //spr_dir
+					random_func(7, 30, true) * 12 //angle
+				)
+
+				if (instance_exists(artc_dspec))
+				{
+					do_particle(
+						sprite_get("fx_pow_sparks"),
+						12,
+						artc_dspec.x + (random_func(8, 5, true) - 2) * 16,
+						artc_dspec.y + (random_func(9, 5, true) - 2) * 16 - artc_dspec.article_height / 2,
+						1, //xscale
+						1, //yscale
+						1, //spr_dir
+						random_func(10, 30, true) * 12 //angle
+					)
+				}
+			case 8: case 9: case 10: //lock player movement
 				can_move = false;
 				hsp = 0;
-				vsp = clamp(vsp, vsp, 0);
-				break;
-			case 4: //movement
-				//uspec_angle = joy_dir; //dynamic turning rune?
-
-				var uspec_speed = 10;
-				hsp = lengthdir_x(uspec_speed, uspec_angle);
-				vsp = lengthdir_y(uspec_speed, uspec_angle);
-
-				if (window_timer == 1) uspec_was_free = free;
-				else if (window_timer > 2)
-				{
-					if (uspec_was_free && !free) //bounce
-					{
-						spawn_hit_fx(x, y-32, fx_pow_hit[1]);
-						sound_play(asset_get("sfx_forsburn_combust"));
-
-						vsp = -5;
-						set_state(PS_PRATFALL);
-						uspec_was_free = false;
-					}
-					else if (window_timer == window_end) //if the player doesn't hit the ground/was on the ground this entire time
-					{
-						spawn_hit_fx(x, y-32, fx_pow_hit[0]);
-
-						if (!uspec_was_free && !free) set_state(PS_LANDING_LAG); //slide
-					}
-				}
+				vsp = 0;
 				break;
 		}
 		break;
@@ -548,7 +564,7 @@ switch (attack)
 			case 7: //teleport - it happens on window 8, window timer 0, but attack_update doesn't allow for window_timer 0
 				if (window_timer == window_end)
 				{
-					move_cooldown[attack] = 180;
+					move_cooldown[attack] = 0;
 
 					if (instance_exists(artc_dspec))
 					{
@@ -649,21 +665,21 @@ switch (attack)
 #define do_particle
 {
 	var _spr = argument[0], _length = argument[1], _xpos = argument[2], _ypos = argument[3];
-	var _dir = argument_count > 4 ? argument[4] : 0;
-	var _xscale = argument_count > 5 ? argument[5] : 1;
-	var _yscale = argument_count > 6 ? argument[6] : 1;
-	var _angle = argument_count > 7 ? argument[7] : 0;
-	var _layer = argument_count > 8 ? argument[8] : -1;
-	var _anim_img = argument_count > 9 ? argument[9] : true;
-	var _hsp = argument_count > 10 ? argument[10] : 0;
-	var _vsp = argument_count > 11 ? argument[11] : 0;
-	var _torque = argument_count > 12 ? argument[12] : 0;
-	var _alpha = argument_count > 13 ? argument[13] : 1;
-	var _anim_alpha = argument_count > 14 ? argument[14] : 0;
-	var _color = argument_count > 15 ? argument[15] : c_white;
-	var _filled = argument_count > 16 ? argument[16] : false;
-    var _shader = argument_count > 17 ? argument[17] : false;
-	var _img = argument_count > 18 ? argument[18] : 0;
+var _dir = argument_count > 4 ? argument[4] : 0;
+var _xscale = argument_count > 5 ? argument[5] : 1;
+var _yscale = argument_count > 6 ? argument[6] : 1;
+var _angle = argument_count > 7 ? argument[7] : 0;
+var _layer = argument_count > 8 ? argument[8] : -1;
+var _anim_img = argument_count > 9 ? argument[9] : true;
+var _hsp = argument_count > 10 ? argument[10] : 0;
+var _vsp = argument_count > 11 ? argument[11] : 0;
+var _torque = argument_count > 12 ? argument[12] : 0;
+var _alpha = argument_count > 13 ? argument[13] : 1;
+var _anim_alpha = argument_count > 14 ? argument[14] : 0;
+var _color = argument_count > 15 ? argument[15] : c_white;
+var _filled = argument_count > 16 ? argument[16] : false;
+var _shader = argument_count > 17 ? argument[17] : false;
+var _img = argument_count > 18 ? argument[18] : 0;
 
 	var new_part = {
 		spr: _spr,

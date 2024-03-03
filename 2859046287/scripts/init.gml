@@ -453,6 +453,7 @@ fspec_found_target = false;
 fspec_tether_pos = [0, 0]; //x, y - should be used for the drawing stuf, as well as the positions the hitbox should spawn
 
 artc_dspec = noone;
+artc_uspec = noone;
 
 //rune F needs 2 players only to work
 runeF_player_amount = 0; //needs to be 2 players
