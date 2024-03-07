@@ -17,6 +17,7 @@ the default employee of [Lethal Company](https://store.steampowered.com/app/1966
 | Tilts | 0% |
 | Strong | 0% |
 | Aereals | 0% |
+| Specials | 15% |
 
 
 ## Documentation
