@@ -364,7 +364,7 @@ switch (attack)
 				if (!free)
 				{
 					instance_destroy(artc_uspec)
-					artc_uspec = instance_create(x, y-50, "obj_article2");
+					artc_uspec = instance_create(x, y-2*sprite_height, "obj_article2");
 				}
 				if (free && window_timer == 1) vsp = -3; //does a little bounce in the air
 				break;
@@ -381,9 +381,16 @@ switch (attack)
 					if (instance_exists(artc_uspec))
 					{
 						spawn_hit_fx(x, y-32, fx_pow_hit[0]); //before warp effect
-
-						x = artc_uspec.x; //warp to the coordinates
-						y = artc_uspec.y + 50;
+						if spr_dir == 1
+						{
+							x = artc_uspec.x + (sprite_width/2)+6; //warp to the coordinates
+							y = artc_uspec.y + (sprite_height*2);
+						}
+						else 
+						{
+							x = artc_uspec.x - (sprite_width/2)+10; //warp to the coordinates
+							y = artc_uspec.y + (sprite_height*2);
+						}
 
 						spawn_hit_fx(x, y-32, fx_pow_hit[0]); //after warp effect
 					}
@@ -401,13 +408,13 @@ switch (attack)
 					random_func(7, 30, true) * 12 //angle
 				)
 
-				if (instance_exists(artc_dspec))
+				if (instance_exists(artc_uspec))
 				{
 					do_particle(
 						sprite_get("fx_pow_sparks"),
 						12,
-						artc_dspec.x + (random_func(8, 5, true) - 2) * 16,
-						artc_dspec.y + (random_func(9, 5, true) - 2) * 16 - artc_dspec.article_height / 2,
+						artc_uspec.x + (random_func(8, 5, true) - 2) * 16,
+						artc_uspec.y + (random_func(9, 5, true) - 2) * 16 - artc_uspec.article_height / 2,
 						1, //xscale
 						1, //yscale
 						1, //spr_dir

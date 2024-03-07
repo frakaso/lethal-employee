@@ -6,6 +6,9 @@ depth = 3;                                  // - sets the layer it draws the art
 
 sprite_index = sprite_get("artc_uspec");    // - sets the sprite of the article, can also be changed dynamically in article#_update.gml
 mask_index = sprite_get("artc_uspec"); // - sets the mask of the article, it decides the article's detection space
+image_yscale = 2 //ma grande
+image_xscale = 2 //ma grande}
+sprite_change_offset(sprite_index, sprite_width/2, 0); //origen al medio
 //if you don't have a mask index, remove the code from line 68 in article1_post_draw.gml
 
 image_index = 0;                            // - sets the current frame of the article
